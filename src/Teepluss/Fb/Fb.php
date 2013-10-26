@@ -28,24 +28,31 @@ class Fb extends BaseFacebook {
             $perms = explode(',', $perms);
         }
 
-        // Get permissions from graph api.
-        $permissions = $this->api('/'.$uid.'/permissions');
-
-        $currentPermissions = current(array_get($permissions, 'data'));
-
-        $has = true;
-
-        // Checking process.
-        foreach ($perms as $perm)
+        try
         {
-            if ( ! array_key_exists($perm, $currentPermissions) or $currentPermissions[$perm] == 0)
-            {
-                $has = false;
-                break;
-            }
-        }
+            // Get permissions from graph api.
+            $permissions = $this->api('/'.$uid.'/permissions');
 
-        return $has;
+            $currentPermissions = current(array_get($permissions, 'data'));
+
+            $has = true;
+
+            // Checking process.
+            foreach ($perms as $perm)
+            {
+                if ( ! array_key_exists($perm, $currentPermissions) or $currentPermissions[$perm] == 0)
+                {
+                    $has = false;
+                    break;
+                }
+            }
+
+            return $has;
+        }
+        catch (\Exception $e)
+        {
+            return false;
+        }
     }
 
 }
