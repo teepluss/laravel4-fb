@@ -1,6 +1,6 @@
 <?php namespace Teepluss\Fb;
 
-use Facebook as BaseFacebook;
+use \Facebook as BaseFacebook;
 
 class Fb extends BaseFacebook {
 
